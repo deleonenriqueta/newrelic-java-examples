@@ -29,7 +29,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: test
-          args: --all-sub-projects --org=java-agent-test --configuration-matching='(^compileClasspath$)|(^runtimeClasspath$)'
+          args: --file=newrelic-java-agent/distributed-tracing/kafka-examples/build.gradle --org=java-agent-test --configuration-matching='(^compileClasspath$)|(^runtimeClasspath$)'
   spring-inheritance-security-scan:
     runs-on: ubuntu-latest
     steps:
