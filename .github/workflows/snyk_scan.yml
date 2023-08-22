@@ -39,7 +39,7 @@ jobs:
           ref: 'main'
           
       - name: Navigate to Spring Inheritance
-        run: cd newrelic-java-agent/distributed-tracing/instrumentation/spring-inheritance
+        run: cd newrelic-java-agent/instrumentation/spring-inheritance
           
       - name: Run Snyk To Check For Vulnerabilities
         uses: snyk/actions/gradle@master
