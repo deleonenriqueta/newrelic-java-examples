@@ -1,0 +1,50 @@
+# This workflow automates the process of identifying potential security vulnerabilities 
+# using Snyk. Dependency vulnerability scans will be run when a push is made to the main 
+# branch, on a weekly schedule, and can also be triggered manually.
+
+name: Snyk Vulnerability Scan
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: '00 15 * * 1'
+  push:
+    branches:
+      - main
+
+jobs:
+  distributed-tracing-security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          ref: 'main'
+          
+      - name: Navigate to Kafka Examples
+        run: cd newrelic-java-agent/distributed-tracing/kafka-examples/
+          
+      - name: Run Snyk To Check For Vulnerabilities
+        uses: snyk/actions/gradle@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: test
+          args: --all-sub-projects --org=java-agent-test --configuration-matching='(^compileClasspath$)|(^runtimeClasspath$)'
+  spring-inheritance-security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          ref: 'main'
+          
+      - name: Navigate to Spring Inheritance
+        run: cd newrelic-java-agent/distributed-tracing/instrumentation/spring-inheritance
+          
+      - name: Run Snyk To Check For Vulnerabilities
+        uses: snyk/actions/gradle@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: test
+          args: --all-sub-projects --org=java-agent-test --configuration-matching='(^compileClasspath$)|(^runtimeClasspath$)'
