@@ -20,7 +20,18 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 17
-            
+          
+      - name: Set gradle.properties
+        shell: bash
+        run: |
+          sed -i -e "s|jdk17=17|jdk17=${JAVA_HOME_17_X64}|" gradle.properties.gha
+          cat gradle.properties.gha >> gradle.properties
+          
+      - name: Set Gradle Options
+        run: |
+          echo "GRADLE_OPTIONS=-Porg.gradle.java.installations.auto-detect=false" \
+          "-Porg.gradle.java.installations.fromEnv=JAVA_HOME_17_x64" >> $GITHUB_ENV
+          
       - name: Checkout Code
         uses: actions/checkout@v3
         with:
